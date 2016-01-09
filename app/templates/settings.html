@@ -1,0 +1,27 @@
+﻿<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-energized">
+        <h1 class="title">Settings</h1>
+      <button class="button button-clear button-primary" ng-click="modal.hide()">Back</button>
+    </ion-header-bar>
+    <ion-content has-header="true" padding="true">
+        <div class="list">
+
+            <div class="item" ng-click="clear()">
+                Clear data
+            </div>
+            <div class="item" ng-click="download()">
+                Download student database
+            </div>
+
+            <div class="item item-divider">
+                Information
+            </div>
+            <a class="item" ng-click="about()">
+                About
+            </a>
+            <a class="item" ng-click="devmodal.show()">
+                Developer information
+            </a>
+        </div>
+    </ion-content>
+</ion-modal-view>

@@ -1,0 +1,24 @@
+﻿<ion-view title="Take attendance">
+    <ion-nav-buttons side="left">
+        <button class="button button-clear icon ion-android-home text-primary-color" ng-click="goHome()"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header" >
+        <div id="btn-container" style="margin-bottom:50px !important;">
+            <div id="studentbtn" style="padding:5px" ng-repeat="student in students" on-hold="showInfo($event,student)">
+                <button class="button fab" ng-class="{'absentClass':student.absent}"
+                        ng-click="toggle(student)" >
+                    <strong>{{student.rollno}}</strong>
+                </button>
+            </div>
+        </div>
+      <div class="padding"></div>
+      <div class="padding"></div>
+    </ion-content>
+    <div id="info">
+        <div><i class="icon ion-record icon1"></i> Present</div>
+        <div><i class="icon ion-record icon2"></i> Absent</div>
+    </div>
+    <div class="bar bar-footer bar-stable">
+      <div class="title" ng-click="askTopic()">Submit&nbsp;<i class="icon ion-android-send"></i></div>
+    </div>
+</ion-view>

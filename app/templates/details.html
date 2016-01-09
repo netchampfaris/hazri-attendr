@@ -1,0 +1,40 @@
+<ion-view title="Details">
+    <ion-nav-buttons side="left">
+        <button class="button button-clear icon ion-android-home text-primary-color" ng-click="goHome()"></button>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="list card">
+            <div class="item item-text-wrap">
+                <h2>
+                    {{att.subid.value}}
+                </h2>
+                <p>Date: {{ att.date | date:'d MMMM, yyyy' }}</p>
+            </div>
+            <div class="item item-text-wrap">
+                <h2>{{ att.year.id | uppercase }} {{ att.dept.value }}</h2>
+            </div>
+            <div class="item item-text-wrap">
+                <h2>{{ att.semester.value }}</h2>
+            </div>
+            <div class="item item-text-wrap">
+                <h2>{{ att.type.value }}</h2>
+            </div>
+            <div class="item item-text-wrap" ng-if="att.batchno.id">
+                <h2>Batch {{ att.batchno.id }}</h2>
+            </div>
+            <div class="item item-text-wrap">
+                <h2>Duration: {{ att.noofhours }} Hour{{(att.noofhours==1)?'':'s'}}</h2>
+            </div>
+            <div class="item item-text-wrap">
+                <h2 ng-if="att.absentno.length > 0">
+                    Absentees: <span ng-repeat="no in att.absentno">{{no}} </span>
+                </h2>
+                <h2 ng-if="att.absentno.length == 0">No absentees</h2>
+            </div>
+            <a class="item item-icon-left stable-bg" ng-click="showCumAtt(att)">
+                <i class="icon ion-document-text"></i>
+                View total
+            </a>
+        </div>
+    </ion-content>
+</ion-view>
