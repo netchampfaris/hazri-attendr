@@ -21,14 +21,14 @@ angular.module('Hazri')
 
     $scope.askTopic = function() {
       var myPopup = $ionicPopup.show({
-        template: '<input type="text" ng-model="topic.name">',
-        title: 'Would you like to enter the topic you just taught?',
-        subTitle: 'Please use specific topic name',
+        template: '<textarea id="topic" rows="4" ng-model="topic.name" placeholder="Topic Name"></textarea>',
+        title: 'Please enter the topic you just taught',
+        // subTitle: 'Please use specific topic name',
         scope: $scope,
         buttons: [
-          { text: 'No' },
+          { text: 'Skip' },
           {
-            text: '<b>Yes</b>',
+            text: '<b>Enter</b>',
             type: 'button-positive',
             onTap: function (e) {
               if(!$scope.topic.name){

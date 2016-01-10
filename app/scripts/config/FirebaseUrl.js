@@ -11,6 +11,6 @@
 angular.module('Hazri')
 
   .constant('FirebaseUrl', {
-    root: 'https://hazritest.firebaseio.com'
+    root: 'https://hazri.firebaseio.com'
   });
 
