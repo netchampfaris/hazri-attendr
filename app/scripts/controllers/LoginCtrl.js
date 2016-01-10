@@ -30,6 +30,11 @@ angular.module('Hazri')
 
       if (isOnline) {
         $ionicLoading.show();
+        var session;
+        if(window.cordova)
+          session = 'default';
+        else
+          session = 'sessionOnly';
 
         var deferred = $q.defer();
         FirebaseRef.authWithPassword({
@@ -40,7 +45,7 @@ angular.module('Hazri')
             $rootScope.showAlert("Error", error);
             deferred.reject();
           } else {
-            console.log("Authenticated successfully with payload:", authData);
+            //console.log("Authenticated successfully with payload:", authData);
             $ionicHistory.nextViewOptions({
               disableAnimate: true,
               disableBack: true,
@@ -48,6 +53,8 @@ angular.module('Hazri')
             });
             deferred.resolve();
           }
+        },{
+          remember: session
         });
         return deferred.promise;
       }
