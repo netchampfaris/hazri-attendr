@@ -16,7 +16,20 @@ angular.module('Hazri')
 
         localforage.getItem('attendances').then(function (attendances) {
           var att = attendances[key];
-          defer.resolve(att);
+          var dept = att.dept.id;
+          var absentuids = att.absentno;
+
+
+          localforage.getItem('hazridata').then(function (hazridata) {
+            var students = hazridata.students[dept];
+            var absentnos = [];
+            for(var i=0; i<absentuids.length; i++)
+              absentnos.push(students[absentuids[i]]['rollno']);
+            defer.resolve({
+              att: att,
+              absentroll: absentnos
+            });
+          });
         });
         return defer.promise;
       }

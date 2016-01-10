@@ -26,10 +26,10 @@
                 <h2>Duration: {{ att.noofhours }} Hour{{(att.noofhours==1)?'':'s'}}</h2>
             </div>
             <div class="item item-text-wrap">
-                <h2 ng-if="att.absentno.length > 0">
-                    Absentees: <span ng-repeat="no in att.absentno">{{no}} </span>
+                <h2 ng-if="absentroll.length > 0">
+                    Absentees: <span ng-repeat="no in absentroll">{{no}} </span>
                 </h2>
-                <h2 ng-if="att.absentno.length == 0">No absentees</h2>
+                <h2 ng-if="absentroll.length == 0">No absentees</h2>
             </div>
             <a class="item item-icon-left stable-bg" ng-click="showCumAtt(att)">
                 <i class="icon ion-document-text"></i>

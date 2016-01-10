@@ -11,6 +11,9 @@
                 <p>
                     Total Lectures: {{items.totalAtt}}
                 </p>
+                <p>
+                    Teacher: {{items.teacher}}
+                </p>
                 <p ng-if="batchno">
                     Batch {{items.batchno}}
                 </p>
@@ -22,10 +25,10 @@
                 <div class="col">Name</div>
                 <div class="col col-25">Cumu Att</div>
             </div>
-            <div class="row" ng-repeat="(roll, att) in items.att track by $index">
-                <div class="col col-20"><strong>{{ roll }}</strong></div>
-                <div class="col">{{ items.studentNames[$index] }}</div>
-                <div class="col col-25">{{ att }}</div>
+            <div class="row" ng-repeat="(uid, student) in items.att track by $index">
+                <div class="col col-20"><strong>{{ student.rollno }}</strong></div>
+                <div class="col">{{ student.name }}</div>
+                <div class="col col-25">{{ student.att }}</div>
             </div>
         </div>
     </ion-content>

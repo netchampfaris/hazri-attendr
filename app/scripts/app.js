@@ -26,6 +26,7 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase','ionic-d
 
       Firebase.INTERNAL.forceWebSockets();
 
+
       if(window.cordova)
         $cordovaAppVersion.getVersionNumber().then(function (version) {
           $rootScope.appVersion = 'v'+version;
@@ -37,13 +38,14 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase','ionic-d
       FirebaseAuth.$onAuth(function (authData) {
         if (authData) {
           $rootScope.authData = authData;
-          console.log("Logged in as:", authData.uid);
+          //console.log("Logged in as:", authData.uid);
           FirebaseRef.child('teachers').once('value', function (data) {
             $rootScope.authData.teachername = data.val()[$rootScope.authData.uid].name;
-            $state.go('main');
+            $rootScope.$apply();
           });
+          $state.go('main');
         } else {
-          console.log("Logged out");
+          //console.log("Logged out");
           $state.go('login');
         }
       });
@@ -51,10 +53,10 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase','ionic-d
       $rootScope.logout = function () {
         $rootScope.confirmPopup('Logout','','Logout','assertive').then(function (res) {
           if (res) {
-            console.log("Logging out from the app");
+            //console.log("Logging out from the app");
             FirebaseAuth.$unauth();
           } else {
-            console.log("logout cancelled");
+            //console.log("logout cancelled");
           }
         });
       };
@@ -64,23 +66,20 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase','ionic-d
       }
 
       $rootScope.showAlert = function(title, message) {
-        $ionicPopup.alert({
-            title: title,
+        return $ionicPopup.alert({
+              title: title,
               template: message,
               okType: 'button-positive'
-          }).then(function (res) {
-      console.log('ok clicked alert');
-    });
+          });
   };
 
   $rootScope.confirmPopup = function(title, message, okText, okColor) {
-    var confirmPopup = $ionicPopup.confirm({
+    return $ionicPopup.confirm({
       title: title,
       template: message,
       okType: 'button-'+okColor,
       okText: okText
     });
-    return confirmPopup;
   };
 
   $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
@@ -225,6 +224,7 @@ $ionicPlatform.registerBackButtonAction(function (event) {
     $urlRouterProvider.otherwise('/login');
 
     $ionicConfigProvider.scrolling.jsScrolling(false);
+    $ionicConfigProvider.navBar.alignTitle('left').positionPrimaryButtons('right');
   });
 
 

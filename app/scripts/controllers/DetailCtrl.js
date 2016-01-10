@@ -7,9 +7,10 @@
  * # DetailCtrl
  */
 angular.module('Hazri')
-  .controller("DetailCtrl", function ($scope, attInfo, $state) {
+  .controller("DetailCtrl", function ($scope, attInfo, $state, isOnline) {
 
-    $scope.att = attInfo;
+    $scope.att = attInfo.att;
+    $scope.absentroll = attInfo.absentroll;
 
     $scope.showCumAtt = function (att) {
 
@@ -24,16 +25,19 @@ angular.module('Hazri')
         type: att.type,
         year: att.year
       };
-
-      $state.go("viewAttendance",
-        {
-          info: {
-            selected: selectedOptions,
-            totalStudents: att.totalStudents,
-            bStart: att.bStart,
-            bEnd: att.bEnd
-          }
-        });
+      if(isOnline) {
+        $state.go("viewAttendance",
+          {
+            info: {
+              selected: selectedOptions,
+              totalStudents: att.totalStudents,
+              bStart: att.bStart,
+              bEnd: att.bEnd
+            }
+          });
+      }
+      else
+      $rootScope.showAlert('No Internet','');
     };
 
   });
