@@ -11,7 +11,7 @@ angular.module('Hazri')
 
     $scope.topic = {};
     $scope.topic.name = '';
-    console.log(info);
+    //console.log(info);
 
     $scope.students = info.students;
     var batchStart = info.batchStart;
@@ -19,16 +19,18 @@ angular.module('Hazri')
     var selectedOptions = info.selected;
     var totalStudents = info.totalStudents;
 
-    $scope.askTopic = function() {
+    $scope.askTopic = function(students) {
+
+      //console.log(students);
+
       var myPopup = $ionicPopup.show({
-        template: '<input type="text" ng-model="topic.name">',
-        title: 'Would you like to enter the topic you just taught?',
-        subTitle: 'Please use specific topic name',
+        template: '<textarea rows="4" ng-model="topic.name" placeholder="Topic Name"></textarea>',
+        title: 'Enter the topic you just taught',
         scope: $scope,
         buttons: [
-          { text: 'No' },
+          { text: 'Skip' },
           {
-            text: '<b>Yes</b>',
+            text: '<b>Enter</b>',
             type: 'button-positive',
             onTap: function (e) {
               if(!$scope.topic.name){
@@ -45,12 +47,12 @@ angular.module('Hazri')
           console.log('topic added:'+$scope.topic.name);
         else
           console.log('no topic');
-        showConfirm();
+        showConfirm(students);
       });
     };
 
-    var showConfirm = function () {
-      console.log($scope.students);
+    var showConfirm = function (students) {
+      //console.log($scope.students);
 
       $rootScope.confirmPopup(
         'Confirm Submit',
@@ -62,7 +64,7 @@ angular.module('Hazri')
           console.log('You are sure');
           $ionicLoading.show();
           $timeout(function () {
-            updateAttendance();
+            updateAttendance(students);
           }, 500);
         } else {
           console.log('You are not sure');
@@ -70,18 +72,15 @@ angular.module('Hazri')
       });
     };
 
-    var updateAttendance = function () {
-      var absent = [];
-      for (var i = 0 ; i < $scope.students.length ; i++)
-        if ($scope.students[i].absent === true)
-          absent.push($scope.students[i].uid);
-      //Natural sort
-      function compareNumbers(a, b) {
-        return a - b;
-      }
-      absent.sort(compareNumbers);
-      var uids = _.pluck($scope.students, 'uid');
+    var updateAttendance = function (students) {
+
+
+      var absent = _.filter(students,function(student){ return student.absent === true; });
+      absent = _.pluck(absent, 'uid');
+
+      var uids = _.pluck(students, 'uid');
       var present = _.difference(uids, absent);
+      //console.log(absent);
 
       //attendance object to store in local
       var attLocal = {
@@ -117,7 +116,7 @@ angular.module('Hazri')
           localforage.setItem('attendances', attendances).then(function () {
             localforage.getItem('attendances').then(function (data) {
               console.log("1st value pushed");
-              console.log(data);
+              //console.log(data);
               defer.resolve();
             });
           });
@@ -129,7 +128,7 @@ angular.module('Hazri')
             localforage.setItem('attendances', data).then(function () {
               localforage.getItem('attendances').then(function (data) {
                 console.log(newkey + " value pushed");
-                console.log(data);
+                //console.log(data);
                 defer.resolve();
               });
             });

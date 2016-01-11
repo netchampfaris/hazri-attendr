@@ -1,6 +1,6 @@
 ﻿<ion-view title="Take attendance">
     <ion-nav-buttons side="left">
-        <button class="button button-clear icon ion-android-home text-primary-color" ng-click="goHome()"></button>
+        <button class="button button-clear icon ion-android-home" ng-click="goHome()"></button>
     </ion-nav-buttons>
     <ion-content class="has-header" >
         <div id="btn-container" style="margin-bottom:50px !important;">
@@ -19,6 +19,6 @@
         <div><i class="icon ion-record icon2"></i> Absent</div>
     </div>
     <div class="bar bar-footer bar-stable">
-      <div class="title" ng-click="askTopic()">Submit&nbsp;<i class="icon ion-android-send"></i></div>
+      <div class="title" ng-click="askTopic(students)">Submit&nbsp;<i class="icon ion-android-send"></i></div>
     </div>
 </ion-view>
