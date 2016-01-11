@@ -44,6 +44,29 @@
   margin: 2px;
   display: inline-block;
 }
+#topic
+{
+    background-color:grey !important;
+    color: white;
+    padding: 5%;
+}
+#topic::-webkit-input-placeholder {
+color: white !important;
+}
+#logo
+{
+    margin-top:50px; 
+    width:150px;
+    height:auto;
+}
+
+#foot
+{
+    line-height: 120%;
+    font-size:99%;
+    margin-top:5px;
+    color: $energized;
+}
 
 /*popover*/
 .platform-android .popover {
