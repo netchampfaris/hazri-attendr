@@ -9,7 +9,7 @@
         <div class="list wrap">
          <label class="item item-input">
                <i class="icon ion-android-person" style="padding-right:10px"></i>
-                <input type="email" placeholder="Username" ng-model="user.email" required autofocus autocomplete="on">
+                <input type="email" placeholder="Email" ng-model="user.email" required autofocus autocomplete="on">
             </label>
           <label class="item item-input">
                 <i class="icon ion-lock-combination" style="padding-right:10px"></i>
@@ -20,13 +20,12 @@
           <button class="col-offset-33 col-33 button button-positive" ng-disabled="!user.email && !user.password" type="submit">Login</button>
         </div>
       </form>
-            
+
     </ion-content>
-    <div class="bar bar-footer bar-stable">
-        <div class="title" id="foot">
-            
-            Developed by<br>
-            Faris | Suraj
+    <div class="bar bar-footer bar-stable" >
+        <div class="row">
+          <p class="col center energized">Developed by Faris & Suraj</p>
         </div>
+    </div>
 
 </ion-view>
