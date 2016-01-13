@@ -17,6 +17,9 @@ angular.module('Hazri')
     $scope.topic = {};
     $scope.topic.name = '';
     //console.log(info);
+<<<<<<< HEAD
+>>>>>>> 1a0f0b2321679643c143804fca3bea6d7e777626
+=======
 >>>>>>> 1a0f0b2321679643c143804fca3bea6d7e777626
 
         $scope.students = info.students;
@@ -94,6 +97,13 @@ angular.module('Hazri')
 
       //console.log(students);
 
+<<<<<<< HEAD
+=======
+    $scope.askTopic = function(students) {
+
+      //console.log(students);
+
+>>>>>>> 1a0f0b2321679643c143804fca3bea6d7e777626
       var myPopup = $ionicPopup.show({
         template: '<textarea rows="4" ng-model="topic.name" placeholder="Topic Name"></textarea>',
         title: 'Enter the topic you just taught',
@@ -152,6 +162,9 @@ angular.module('Hazri')
       var uids = _.pluck(students, 'uid');
       var present = _.difference(uids, absent);
       //console.log(absent);
+<<<<<<< HEAD
+>>>>>>> 1a0f0b2321679643c143804fca3bea6d7e777626
+=======
 >>>>>>> 1a0f0b2321679643c143804fca3bea6d7e777626
 
             //attendance object to store in local
