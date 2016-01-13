@@ -8,10 +8,10 @@
  *
  */
 angular.module('Hazri')
-  .factory('FirebaseRef', function(FirebaseUrl) {
+    .factory('FirebaseRef', function (FirebaseUrl) {
 
-    var ref = new Firebase(FirebaseUrl.root);
+        var ref = new Firebase(FirebaseUrl.root);
 
-    return ref;
-  });
+        return ref;
+    });
 

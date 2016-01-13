@@ -10,6 +10,6 @@
  */
 
 angular.module('Hazri')
-  .factory('_', function($window) {
-    return $window._;
-  });
+    .factory('_', function ($window) {
+        return $window._;
+    });

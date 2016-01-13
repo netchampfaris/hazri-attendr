@@ -46,12 +46,12 @@
 }
 #topic
 {
-    background-color:grey !important;
-    color: white;
+    background-color: $stable !important;
+    color: $dark;
     padding: 5%;
 }
 #topic::-webkit-input-placeholder {
-color: white !important;
+color: grey !important;
 }
 #logo
 {
