@@ -47,8 +47,11 @@ angular.module('Hazri')
                 angular.equals(data.students, snapshot.val().students) &&
                 angular.equals(data.subjects, snapshot.val().subjects) &&
                 angular.equals(data.teachers, snapshot.val().teachers)
-              )
+              ){
                 if(window.cordova) $cordovaToast.showShortBottom('Database is up-to-date');
+                console.log('db uptodate');
+              }
+
               else{
                 var hazridata = {};
                 hazridata.departments = snapshot.val().departments;
@@ -59,6 +62,7 @@ angular.module('Hazri')
                 console.log(hazridata);
                 localforage.setItem('hazridata', hazridata).then(function () {
                   if(window.cordova) $cordovaToast.showShortBottom('Database updated successfully');
+                  console.log('db updated');
                 });
               }
               deferred.resolve();

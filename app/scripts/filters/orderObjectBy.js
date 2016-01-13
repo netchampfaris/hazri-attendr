@@ -15,7 +15,12 @@ angular.module('Hazri')
         filtered.push(item);
       });
       filtered.sort(function (a, b) {
-        return (a[field] > b[field] ? 1 : -1);
+        var x = a[field];
+        var y = b[field];
+        if(!isNaN(x) && !isNaN(y)) {
+          x = parseInt(x); x = parseInt(x);
+        }
+        return (x > y ? 1 : -1);
       });
       if(reverse) filtered.reverse();
       return filtered;
