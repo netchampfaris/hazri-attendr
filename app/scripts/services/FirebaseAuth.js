@@ -8,8 +8,8 @@
  *
  */
 angular.module('Hazri')
-  .factory("FirebaseAuth", function ($firebaseAuth, FirebaseUrl) {
-      var ref = new Firebase(FirebaseUrl.root);
-      return $firebaseAuth(ref);
-  });
+    .factory("FirebaseAuth", function ($firebaseAuth, FirebaseUrl) {
+        var ref = new Firebase(FirebaseUrl.root);
+        return $firebaseAuth(ref);
+    });
 

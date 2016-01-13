@@ -7,20 +7,19 @@
  * # isOnline
  */
 angular.module('Hazri')
-  // use factory for services
-  .factory('isOnline', function($ionicPlatform) {
+// use factory for services
+    .factory('isOnline', function ($ionicPlatform,$cordovaNetwork) {
 
-    var isOnline = function() {
-      $ionicPlatform.ready(function () {
-        if(window.cordova)
-        {
-          return $cordovaNetwork.isOnline();
-        }
-        else
-          return true;
-      });
-    };
+        var isOnline = function () {
+            $ionicPlatform.ready(function () {
+                if (window.cordova) {
+                    return $cordovaNetwork.isOnline();
+                }
+                else
+                    return true;
+            });
+        };
 
-    return isOnline;
+        return isOnline;
 
-  });
+    });

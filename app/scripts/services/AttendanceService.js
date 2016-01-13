@@ -7,21 +7,21 @@
  * # AttendanceService
  */
 angular.module('Hazri')
-  // use factory for services
-  .factory("AttendanceService", function ($q) {
+// use factory for services
+    .factory('AttendanceService', function ($q) {
 
-    var getAttendances = function () {
+        var getAttendances = function () {
 
-      var deferred = $q.defer();
+            var deferred = $q.defer();
 
-      localforage.getItem('attendances').then(function (data) {
-        deferred.resolve(data);
-      });
+            localforage.getItem('attendances').then(function (data) {
+                deferred.resolve(data);
+            });
 
-      return deferred.promise;
-    };
+            return deferred.promise;
+        };
 
-    return {
-      getAttendances: getAttendances
-    };
-  })
+        return {
+            getAttendances: getAttendances
+        };
+    })

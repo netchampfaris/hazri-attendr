@@ -5,39 +5,33 @@
     <ion-content>
         <ion-list>
             <div ng-repeat="option in options">
-                <ion-item class="item item-icon-right"
-                            ng-click="showOptions(option)"
-                            ng-class="{active: isOptionShown(option)}"
-                            ng-show="option.show == undefined || option.show">
+                <ion-item class="item item-icon-right" ng-click="showOptions(option)" ng-class="{active: isOptionShown(option)}" ng-show="option.show == undefined || option.show">
                     {{option.name}}
                     <span class="item-note">{{ selected[option.id].value }}</span>
                     <i class="icon ion-chevron-down icon-accessory"></i>
                 </ion-item>
-                <ion-item class="item-accordion stable-bg"
-                            style="padding-left:3em !important;"
-                            ng-repeat="item in option.values as selectedoption"
-                            ng-show="isOptionShown(option)"
-                            ng-click="setSelected(item, option)">
+                <ion-item class="item-accordion stable-bg" style="padding-left:3em !important;" ng-repeat="item in option.values as selectedoption"
+                ng-show="isOptionShown(option)" ng-click="setSelected(item, option)">
                     {{item.value}}
                 </ion-item>
             </div>
             <label class="item" ng-init="selected.noofhours = 1">
-              <div class="item-content">Duration<span class="item-note">{{selected.noofhours}} Hour{{(selected.noofhours==1)?'':'s'}}</span></div>
-              <div class="range range-assertive">
-                <i class="icon ion-ios-time-outline positive"></i>
-                <input type="range" min="1" max="4" value="1" ng-model="selected.noofhours">
-                <i class="icon ion-ios-timer-outline positive"></i>
-              </div>
+                <div class="item-content">Duration<span class="item-note">{{selected.noofhours}} Hour{{(selected.noofhours==1)?'':'s'}}</span></div>
+                <div class="range range-assertive">
+                    <i class="icon ion-ios-time-outline positive"></i>
+                    <input type="range" min="1" max="4" value="1" ng-model="selected.noofhours">
+                    <i class="icon ion-ios-timer-outline positive"></i>
+                </div>
             </label>
             <ionic-datepicker input-obj="datepickerObject">
-              <ion-item class="item item-icon-right" ng-click="">
-                Date <span class="item-note">{{selected.date | date:'dd - MMMM - yyyy'}}</span>
-                <i class="icon ion-chevron-down icon-accessory"></i>
-              </ion-item>
+                <ion-item class="item item-icon-right" ng-click="">
+                    Date <span class="item-note">{{selected.date | date:'dd - MMMM - yyyy'}}</span>
+                    <i class="icon ion-chevron-down icon-accessory"></i>
+                </ion-item>
             </ionic-datepicker>
         </ion-list>
     </ion-content>
-  <div class="bar bar-footer bar-stable">
-    <div class="title" ng-click="gotoAtt(selected)" >Take Attendance</div>
-  </div>
+    <div class="bar bar-footer bar-stable">
+        <div class="title" ng-click="gotoAtt(selected)">Take Attendance</div>
+    </div>
 </ion-view>

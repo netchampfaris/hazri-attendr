@@ -10,7 +10,7 @@
 
 angular.module('Hazri')
 
-  .constant('$ionicLoadingConfig', {
-    template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
-  });
+    .constant('$ionicLoadingConfig', {
+        template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
+    });
 
