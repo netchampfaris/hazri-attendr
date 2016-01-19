@@ -7,11 +7,22 @@
  * # MainCtrl
  */
 angular.module('Hazri')
-    .controller('MainCtrl', function ($scope, FirebaseRef, attendances, DBService, $ionicPopup, $ionicLoading,
-        $ionicModal, $timeout, $state, $rootScope, $q, isOnline) {
-
+    .controller('MainCtrl', function ($scope, FirebaseRef, attendances, DBService, $ionicLoading,
+        $ionicModal, $timeout, $state, $rootScope, $q, AttInfo) {
 
         $scope.attendances = attendances;
+
+        $scope.showCard = function (att, key) {
+          if(!att.absentroll)
+            AttInfo.get(key).then(function (attinfo) {
+              $scope.attendances[key]['absentroll'] = attinfo.absentroll;
+            });
+          att.showcard = !att.showcard;
+        };
+
+        $scope.naturalsort = function (no) {
+          return parseInt(no);
+        };
 
         $scope.syncFb = function (att, key) {
 
@@ -34,11 +45,11 @@ angular.module('Hazri')
             var sync = function () {
 
                 var defer = $q.defer();
-                if (isOnline) {
-                    //reject promise after 60 secs, for conditions when wifi is connected but internet is not working
+                if ($rootScope.isOnline) {
+                    //reject promise after 45 secs, for conditions when wifi is connected but internet is not working
                     $timeout(function () {
                         defer.reject();
-                    }, 60000);
+                    }, 45000);
 
                     FirebaseRef.child('attendances/' + att.dept.id).push(attFb, function (error) {
                         if (error) {
@@ -114,13 +125,19 @@ angular.module('Hazri')
                         'positive'
                         ).then(function (res) {
                             if (res) {
+                              if($rootScope.isOnline){
                                 $ionicLoading.show();
                                 DBService.fetchData().then(function () {
-                                    $ionicLoading.hide();
-                                    $state.go('select');
+                                  $ionicLoading.hide();
+                                  $state.go('select');
                                 }, function () {
-                                    console.log('error downloading data');
+                                  console.log('error downloading data');
                                 });
+                              }
+                              else
+                                $rootScope.showAlert(
+                                  'No Internet',''
+                                );
                             }
                         });
                 }
@@ -155,10 +172,16 @@ angular.module('Hazri')
         };
 
         $scope.download = function () {
+          if($rootScope.isOnline){
             $ionicLoading.show();
             DBService.fetchData().then(function () {
-                $ionicLoading.hide();
+              $ionicLoading.hide();
             });
+          }
+          else
+            $rootScope.showAlert(
+              'No Internet',''
+            );
         };
 
         $scope.about = function () {

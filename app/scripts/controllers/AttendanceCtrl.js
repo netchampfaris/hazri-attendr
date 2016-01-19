@@ -18,6 +18,7 @@ angular.module('Hazri')
     var batchEnd = info.batchEnd;
     var selectedOptions = info.selected;
     var totalStudents = info.totalStudents;
+    $scope.att = selectedOptions;
 
     $scope.askTopic = function(students) {
 

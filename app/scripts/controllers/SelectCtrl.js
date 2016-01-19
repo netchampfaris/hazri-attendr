@@ -160,8 +160,6 @@ angular.module('Hazri')
 
             //proceed only if type field is selected and if type is practical then make sure that batch field is selected
 
-            //$ionicLoading.show({ template: 'Getting subject list...' });
-
             var subjects = hazridata.subjects[$scope.selected.dept.id];
 
             for (var key in subjects) {
@@ -175,8 +173,6 @@ angular.module('Hazri')
                     }
                 }
             }
-
-            //$ionicLoading.hide();
 
         };
 

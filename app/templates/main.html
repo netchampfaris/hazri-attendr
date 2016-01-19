@@ -1,27 +1,41 @@
-﻿<ion-view title="Dashboard" has-subheader="true">
+﻿<ion-view title="Dashboard" has-subheader="true" hide-back-button="true">
     <ion-nav-buttons side="primary">
         <button class="button button-icon button-clear ion-android-settings text-primary-color" ng-click="modal.show()"></button>
         <button class="button button-icon ion-android-exit" ng-click="logout()"></button>
     </ion-nav-buttons>
     <ion-header-bar class="bar-stable bar-subheader">
         <h1 class="title font-fix">Welcome {{authData.teachername}}</h1>
-        <button class="button button-assertive" ng-click="newAtt()"><i class="ion-android-create"></i> New Attendance</button>
+        <button class="button button-assertive" ng-click="newAtt()" nav-transition="ios" nav-direction="forward"><i class="ion-android-create"></i> New Attendance</button>
     </ion-header-bar>
     <ion-content class="has-subheader">
-        <ion-list>
-            <ion-item class="item-icon-left" ng-repeat="(key, att) in attendances track by key" ng-click="gotoDetails(key)" can-swipe="true">
-
-                <i ng-class="{'icon ion-android-cloud-done':att.uploaded, 'icon ion-android-cloud':!att.uploaded}"></i>
-                <h2 class="primary-text-color">{{ att.subid.value }}</h2>
-                <p class="secondary-text-color">{{ att.year.id | uppercase }} {{ att.dept.value }}, {{ att.type.value }}
-                    <span class="item-note">{{att.date | date:"EEE, dd MMM"}}</span>
-                </p>
-
-                <ion-option-button class="button-positive" ng-if="!att.uploaded" ion-stop-event="click" ng-click="syncFb(att,key)">SYNC</ion-option-button>
-                <ion-option-button class="button-assertive" ng-if="!att.uploaded" ion-stop-event="click" ng-click="deleteAtt(key)">DELETE</ion-option-button>
-            </ion-item>
-        </ion-list>
-        <div class="padding">
+        <div class="list">
+          <div class="card att-card-fix" ng-repeat="(key, att) in attendances track by key" ng-init="att.showcard = false" ng-click="showCard(att,key)">
+            <div class="item item-divider item-icon-left light-bg">
+              <i ng-class="{'icon ion-android-cloud-done':att.uploaded, 'icon ion-android-cloud':!att.uploaded}"></i>
+              <h2>{{ att.subid.value }}</h2>
+              <span class="att-subtitle">{{ att.year.id | uppercase }} {{ att.dept.value }}, {{ att.type.value }}</span>
+              <span class="item-note">{{att.date | date:"EEE, dd MMM"}}</span>
+            </div>
+            <div class="item item-body" ng-show="att.showcard">
+              <h2 class="att-body-fix">{{ att.semester.value }}</h2>
+              <h2 ng-if="att.batchno.id">Batch {{ att.batchno.id }}</h2>
+              <h2>Duration: {{ att.noofhours }} Hour{{(att.noofhours==1)?'':'s'}}</h2>
+              <h2 ng-if="att.absentroll.length > 0">
+                <div class="row row-no-padding">
+                  <div class="col col-30">Absentees</div><div class="col"><span class="absent-badge" ng-repeat="no in att.absentroll | orderBy:naturalsort">{{no}} </span></div>
+                </div>
+              </h2>
+              <h2 ng-if="att.absentroll.length == 0">No absentees</h2>
+            </div>
+            <div class="button-bar" ng-show="att.showcard">
+              <button class="col button button-clear button-positive" ng-if="!att.uploaded" ion-stop-event="click" ng-click="syncFb(att,key)">
+                <i class="ion-android-sync"> Sync</i>
+              </button>
+              <button class="col button button-clear button-assertive" ng-if="!att.uploaded" ion-stop-event="click" ng-click="deleteAtt(key)">
+                <i class="ion-android-delete"> Delete</i>
+              </button>
+            </div>
+          </div>
         </div>
     </ion-content>
 </ion-view>

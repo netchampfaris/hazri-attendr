@@ -7,7 +7,7 @@
  * # LoginCtrl
  */
 angular.module('Hazri')
-    .controller('LoginCtrl', function ($scope, $state, $ionicLoading, $ionicHistory, $q, FirebaseRef, isOnline, $rootScope) {
+    .controller('LoginCtrl', function ($scope, $state, $ionicLoading, $ionicHistory, $q, FirebaseRef, $rootScope) {
 
         $scope.login = function (user) {
 
@@ -28,7 +28,7 @@ angular.module('Hazri')
 
         var fblogin = function (user) {
 
-            if (isOnline) {
+            if ($rootScope.isOnline) {
                 $ionicLoading.show();
                 var session;
                 if (window.cordova)

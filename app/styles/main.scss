@@ -209,3 +209,69 @@ color: grey !important;
 .title.font-fix {
   font-size: 1em !important;
 }
+.att-subtitle {
+  font-size: 0.9em;
+}
+.att-body-fix {
+  margin-top: 0 !important;
+}
+.att-card-fix {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+.absent-badge {
+  padding: 3px 8px;
+  min-width: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  display: inline-block;
+  background-color: $assertive;
+  color: $light;
+}
+.col-offset-2 {
+  margin-left: 2%;
+}
+.col-30 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 30%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 30%;
+  -ms-flex: 0 0 30%;
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+
+/*attendance page*/
+#btn-container {
+  margin-top: 2% !important;
+  margin-bottom:10%;
+}
+#studentbtn {
+  padding: 5px;
+}
+
+i.icon.icon-small::before {
+  font-size:20px;
+}
+/*devinfo*/
+.button-google {
+  background-color: $google;
+  border-color: transparent;
+  color: #fff !important;
+  &.active, &.activated{
+    background-color: darken($google,10%);
+    color: #fff !important;
+  }
+}
+.button-facebook {
+  background-color: $facebook;
+  border-color: transparent;
+  color: #fff !important;
+  &.active, &.activated{
+    background-color: darken($facebook, 10%);
+    color: #fff !important;
+  }
+}

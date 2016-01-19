@@ -12,7 +12,7 @@
 
 angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-datepicker'])
 
-    .run(function ($ionicPlatform, $rootScope, $ionicPopup, $state, FirebaseAuth, FirebaseRef, $ionicLoading, _, StudentInfo, $cordovaAppVersion) {
+    .run(function ($ionicPlatform, $rootScope, $ionicPopup, $state, FirebaseAuth, FirebaseRef, $ionicLoading, $cordovaNetwork, StudentInfo, $cordovaAppVersion) {
 
         $ionicPlatform.ready(function () {
             // save to use plugins here
@@ -25,6 +25,29 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
             }
 
             Firebase.INTERNAL.forceWebSockets();
+
+            /*Get online information*/
+            if(window.cordova) {
+              $rootScope.isOnline = $cordovaNetwork.isOnline();
+              $rootScope.$apply();
+            }
+            else {
+              $rootScope.isOnline = true;
+            }
+
+            // listen for Online event
+            $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+              $rootScope.isOnline = true;
+              console.log('online');
+              $rootScope.$apply();
+            });
+
+            // listen for Offline event
+            $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+              $rootScope.isOnline = false;
+              console.log('offline');
+              $rootScope.$apply();
+            });
 
 
             if (window.cordova)
@@ -113,6 +136,12 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
                         }
                     });
             }
+            else if ($state.current.name == "select"){
+              $state.go('main');
+            }
+            else if ($state.current.name == "attendance"){
+              $state.go('select');
+            }
             else
                 $ionicHistory.goBack();
         }, 151);
@@ -153,7 +182,7 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
             })
 
             .state('details', {
-                url: '/main/details',
+                url: '/details',
                 templateUrl: 'templates/details.html',
                 controller: 'DetailCtrl',
                 params: {
@@ -170,7 +199,7 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
             })
 
             .state('viewAttendance', {
-                url: '/main/viewattendance',
+                url: '/viewattendance',
                 cache: false,
                 templateUrl: 'templates/view_attendance.html',
                 controller: 'ViewAttendanceCtrl',

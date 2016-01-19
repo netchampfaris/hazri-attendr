@@ -1,7 +1,7 @@
 ﻿<ion-view title="Select your class and subject">
-    <ion-nav-buttons side="left">
+    <!--<ion-nav-buttons side="left">
         <button class="button button-icon ion-android-home" ng-click="goHome()"></button>
-    </ion-nav-buttons>
+    </ion-nav-buttons>-->
     <ion-content>
         <ion-list>
             <div ng-repeat="option in options">
@@ -32,6 +32,6 @@
         </ion-list>
     </ion-content>
     <div class="bar bar-footer bar-stable">
-        <div class="title" ng-click="gotoAtt(selected)">Take Attendance</div>
+        <div class="title" ng-click="gotoAtt(selected)" nav-direction="forward">Take Attendance</div>
     </div>
 </ion-view>
