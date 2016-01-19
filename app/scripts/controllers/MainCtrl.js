@@ -200,5 +200,9 @@ angular.module('Hazri')
                 animation: 'slide-in-up'
             });
 
+      $scope.goto = function (link) {
+        var ref = cordova.InAppBrowser.open(link, '_system', 'location=yes');
+      }
+
     });
 
