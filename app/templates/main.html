@@ -4,15 +4,18 @@
         <button class="button button-icon ion-android-exit" ng-click="logout()"></button>
     </ion-nav-buttons>
     <ion-header-bar class="bar-stable bar-subheader">
-        <h1 class="title font-fix">Welcome {{authData.teachername}}</h1>
+        <h1 class="title font-fix">Welcome {{$storage.userData.name}}</h1>
         <button class="button button-assertive" ng-click="newAtt()" nav-transition="ios" nav-direction="forward"><i class="ion-android-create"></i> New Attendance</button>
     </ion-header-bar>
     <ion-content class="has-subheader">
         <div class="list">
-          <div class="card att-card-fix" ng-repeat="(key, att) in attendances track by key" ng-init="att.showcard = false" ng-click="showCard(att,key)">
+          <div class="card att-card-fix"
+               ng-repeat="(key, att) in $storage.attendances track by key"
+               ng-init="att.showcard = false"
+               ng-click="att.showcard = !att.showcard">
             <div class="item item-divider item-icon-left light-bg">
-              <i ng-class="{'icon ion-android-cloud-done':att.uploaded, 'icon ion-android-cloud':!att.uploaded}"></i>
-              <h2>{{ att.subid.value }}</h2>
+              <i class="icon calm" ng-class="{'ion-android-cloud-done':att.uploaded, 'ion-android-cloud':!att.uploaded}"></i>
+              <h2>{{ att.subid.fullname }}</h2>
               <span class="att-subtitle">{{ att.year.id | uppercase }} {{ att.dept.value }}, {{ att.type.value }}</span>
               <span class="item-note">{{att.date | date:"EEE, dd MMM"}}</span>
             </div>

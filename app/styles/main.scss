@@ -30,6 +30,9 @@
   width: 56px;
   height: 56px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  &.active,&.activated{
+    background-color: darken($present, 5%);
+  }
 
   strong {
     color: $light;
@@ -37,6 +40,9 @@
 }
 .absentClass {
   background-color: $absent;
+  &.active,&.activated{
+    background-color: darken($absent, 5%);
+  }
 }
 
 #btn-container {
@@ -48,6 +54,7 @@
   position: relative;
   margin: 2px;
   display: inline-block;
+  padding: 5px;
 }
 #topic
 {
@@ -216,8 +223,8 @@ color: grey !important;
   margin-top: 0 !important;
 }
 .att-card-fix {
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
 }
 .absent-badge {
   padding: 3px 8px;
@@ -249,9 +256,7 @@ color: grey !important;
   margin-top: 2% !important;
   margin-bottom:10%;
 }
-#studentbtn {
-  padding: 5px;
-}
+
 
 i.icon.icon-small::before {
   font-size:20px;
@@ -274,4 +279,61 @@ i.icon.icon-small::before {
     background-color: darken($facebook, 10%);
     color: #fff !important;
   }
+}
+.links{
+  padding:4px;
+  font-size: 14px;
+}
+.devcard{
+  display:inline-block;
+  margin:10px;
+  border-radius:15px;
+  width:250px;
+  height: auto;
+  box-shadow: 6px 8px 30px -4px rgba(0,0,0,0.59);
+}
+
+.profile{
+  width:80px;
+  height:80px;
+  border-radius:30%;
+}
+
+.help-text {
+  position: relative;
+  top: 45%;
+  color:lightgrey;
+  font-size:20px;
+}
+.list.height-fix {
+  height:100%;
+}
+.arrow {
+  height: 100px;
+  //width: 200px;
+  background: transparent;
+  border-radius: 0px 0px 370px/225px 0px;
+  border: solid 5px grey;
+  border-top:none;
+  border-left:none;
+  margin:20px;
+}
+
+.arrow:before {
+  height:20px;
+  width: 10px;
+  border: 5px solid grey;
+  border-radius: 30px 30px 0px 0px /75px 75px 0px 0px ;
+  display: block;
+  content: "";
+  border-bottom:none;
+  position:relative;
+  top: -5px;
+  left: 192px;
+  -webkit-transform: rotate(10deg);
+}
+
+/*Select page*/
+.item.item-radio {
+  font-size:0.9em;
 }

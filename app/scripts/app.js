@@ -10,9 +10,10 @@
  */
 
 
-angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-datepicker'])
+angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-datepicker', 'ngStorage'])
 
-    .run(function ($ionicPlatform, $rootScope, $ionicPopup, $state, FirebaseAuth, FirebaseRef, $ionicLoading, $cordovaNetwork, StudentInfo, $cordovaAppVersion) {
+    .run(function ($ionicPlatform, $rootScope, $ionicPopup, $state, FirebaseAuth, FirebaseRef,
+                   $ionicLoading, $cordovaNetwork, StudentInfo, $cordovaAppVersion, $localStorage) {
 
         $ionicPlatform.ready(function () {
             // save to use plugins here
@@ -60,11 +61,15 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
 
             FirebaseAuth.$onAuth(function (authData) {
                 if (authData) {
-                    $rootScope.authData = authData;
+                    $localStorage.authData = authData;
+                    //$rootScope.authData = authData;
                     //console.log("Logged in as:", authData.uid);
-                    FirebaseRef.child('teachers').once('value', function (data) {
-                        $rootScope.authData.teachername = data.val()[$rootScope.authData.uid].name;
-                        $rootScope.$apply();
+                    FirebaseRef.child('teachers/'+authData.uid+'/name').once('value', function (data) {
+                        $localStorage.userData = {
+                          name: data.val()
+                        };
+                        /*$rootScope.authData.teachername = data.val();
+                        $rootScope.$apply();*/
                     });
                     $state.go('main');
                 } else {
@@ -77,7 +82,10 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
                 $rootScope.confirmPopup('Logout', '', 'Logout', 'assertive').then(function (res) {
                     if (res) {
                         //console.log("Logging out from the app");
-                        FirebaseAuth.$unauth();
+                      delete $localStorage.authData;
+                      delete $localStorage.userData;
+                      FirebaseAuth.$unauth();
+
                     } else {
                         //console.log("logout cancelled");
                     }
@@ -174,26 +182,6 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
                 resolve: {
                     "currentAuth": function (FirebaseAuth) {
                         return FirebaseAuth.$requireAuth();
-                    },
-                    "attendances": function (AttendanceService) {
-                        return AttendanceService.getAttendances();
-                    }
-                }
-            })
-
-            .state('details', {
-                url: '/details',
-                templateUrl: 'templates/details.html',
-                controller: 'DetailCtrl',
-                params: {
-                    key: null
-                },
-                resolve: {
-                    "currentAuth": function (FirebaseAuth) {
-                        return FirebaseAuth.$requireAuth();
-                    },
-                    "attInfo": function ($stateParams, AttInfo) {
-                        return AttInfo.get($stateParams.key);
                     }
                 }
             })
@@ -218,6 +206,7 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
 
             .state('select', {
                 url: '/select',
+                cache: false,
                 templateUrl: 'templates/select.html',
                 controller: 'SelectCtrl',
                 resolve: {
@@ -243,11 +232,7 @@ angular.module('Hazri', ['ionic', 'ngCordova', 'ngResource', 'firebase', 'ionic-
                         return StudentInfo.get($stateParams.selected);
                     }
                 }
-            })
-
-
-        ;
-
+            });
 
         // redirects to default route for undefined routes
         $urlRouterProvider.otherwise('/login');

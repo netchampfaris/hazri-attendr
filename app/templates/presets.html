@@ -1,0 +1,14 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-energized">
+    <h1 class="title">Your presets</h1>
+    <button class="button button-clear button-primary" ng-click="modal.hide()">Back</button>
+  </ion-header-bar>
+  <ion-content has-header="true" padding="true">
+    <div class="list">
+      <a class="item item-button-right" ng-repeat="preset in $storage.presets track by $index" ng-click="setOptions(preset)">
+        {{preset.subject.name}} - {{preset.type.value}} {{(preset.batch)?'- Batch'+preset.batch:''}}
+        <button class="button button-icon ion-android-delete assertive" ng-click="removePreset($index); $event.stopPropagation();"></button>
+      </a>
+    </div>
+  </ion-content>
+</ion-modal-view>

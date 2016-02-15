@@ -7,24 +7,18 @@
  * # MainCtrl
  */
 angular.module('Hazri')
-    .controller('MainCtrl', function ($scope, FirebaseRef, attendances, DBService, $ionicLoading,
-        $ionicModal, $timeout, $state, $rootScope, $q, AttInfo) {
+    .controller('MainCtrl', function ($scope, FirebaseRef, DBService, $ionicLoading,
+        $ionicModal, $timeout, $state, $rootScope, $q, $localStorage) {
 
-        $scope.attendances = attendances;
-
-        $scope.showCard = function (att, key) {
-          if(!att.absentroll)
-            AttInfo.get(key).then(function (attinfo) {
-              $scope.attendances[key]['absentroll'] = attinfo.absentroll;
-            });
-          att.showcard = !att.showcard;
-        };
+        $scope.$storage = $localStorage;
+        $scope.$storage.attendances = $localStorage.attendances;
 
         $scope.naturalsort = function (no) {
           return parseInt(no);
         };
 
         $scope.syncFb = function (att, key) {
+          //console.log(att);
 
             var attFb = {
                 absentno: att.absentno,
@@ -36,10 +30,10 @@ angular.module('Hazri')
                 topic: att.topic,
                 type: att.type.id,
                 noofhours: att.noofhours,
-                batchno: (att.batchno) ? att.batchno.id : null,
+                batchno: (att.batchno) ? att.batchno : null,
                 year: att.year.id,
                 timestamp: Firebase.ServerValue.TIMESTAMP,
-                teacher: $rootScope.authData.uid
+                teacher: $localStorage.authData.uid
             };
 
             var sync = function () {
@@ -58,15 +52,9 @@ angular.module('Hazri')
                         }
                         else {
                             console.log('fb pushed');
-
-                            localforage.getItem('attendances').then(function (attendances) {
-                                attendances[key]['uploaded'] = true;
-                                att.uploaded = true;
-                                localforage.setItem('attendances', attendances).then(function () {
-                                    console.log('updated attendance successfully');
-                                });
-                                defer.resolve();
-                            });
+                            $scope.$storage.attendances[key].uploaded = true;
+                            console.log('updated attendance successfully');
+                            defer.resolve();
                         }
                     });
                 }
@@ -98,73 +86,65 @@ angular.module('Hazri')
                 'Delete',
                 'assertive'
                 ).then(function (res) {
-                    if (res)
-                        localforage.getItem('attendances').then(function (attendances) {
-                            console.log(key);
-                            delete attendances[key];
-                            delete $scope.attendances[key];
-                            $scope.$apply();
-                            localforage.setItem('attendances', attendances).then(function () {
-                                console.log('deleted ' + key + ' attendance successfully');
-                            });
-                        });
+                    if (res){
+                      delete $localStorage.attendances[key];
+                      console.log('deleted ' + key + ' attendance successfully');
+                    }
                 });
         };
 
-        $scope.gotoDetails = function (key) {
-            $state.go('details', { key: key });
-        };
-
         $scope.newAtt = function () {
-            localforage.getItem('hazridata').then(function (data) {
-                if (data === null) {
-                    $rootScope.confirmPopup(
-                        'No data',
-                        'In order to take attendance you need to download the student data from server',
-                        'Download',
-                        'positive'
-                        ).then(function (res) {
-                            if (res) {
-                              if($rootScope.isOnline){
-                                $ionicLoading.show();
-                                DBService.fetchData().then(function () {
-                                  $ionicLoading.hide();
-                                  $state.go('select');
-                                }, function () {
-                                  console.log('error downloading data');
-                                });
-                              }
-                              else
-                                $rootScope.showAlert(
-                                  'No Internet',''
-                                );
-                            }
-                        });
+          var data = $localStorage.hazridata;
+
+          if (typeof data == 'undefined') {
+            $rootScope.confirmPopup(
+              'No data',
+              'In order to take attendance you need to download the student data from server',
+              'Download',
+              'positive'
+            ).then(function (res) {
+              if (res) {
+                if($rootScope.isOnline){
+                  $ionicLoading.show();
+                  DBService.fetchData().then(function () {
+                    $ionicLoading.hide();
+                    $state.go('select');
+                  }, function () {
+                    console.log('error downloading data');
+                  });
                 }
-                else $state.go('select');
+                else
+                  $rootScope.showAlert(
+                    'No Internet',''
+                  );
+              }
             });
+          }
+          else $state.go('select');
         };
 
         $ionicModal.fromTemplateUrl('templates/settings.html', function ($ionicModal) {
             $scope.modal = $ionicModal;
-        }, {
-                scope: $scope,
-                animation: 'slide-in-up'
-            });
+        },{
+            scope: $scope,
+            animation: 'slide-in-up'
+        });
 
         $scope.clear = function () {
-
             $rootScope.confirmPopup(
                 'Delete Attendance data from device?',
-                'Note: Both synced and unsynced attendances will be deleted. If there are unsynced attendances, please sync them first.',
+                'Note: Only synced attendances will be deleted.',
                 'Delete',
                 'assertive'
                 ).then(function (res) {
                     if (res) {
-                        localforage.removeItem('attendances').then(function () {
-                            $scope.attendances = {};
-                            console.log('data deleted successfully');
-                        });
+                      for(var key in $localStorage.attendances){
+                        var curr = $localStorage.attendances[key];
+                        if(curr.uploaded == true){
+                          delete $localStorage.attendances[key];
+                        }
+                      }
+                      console.log('deleted successfully');
                     } else {
                         console.log('delete cancelled');
                     }
@@ -185,7 +165,6 @@ angular.module('Hazri')
         };
 
         $scope.about = function () {
-
             var appVersion = $rootScope.appVersion;
             $rootScope.showAlert(
                 'About',
@@ -195,10 +174,11 @@ angular.module('Hazri')
 
         $ionicModal.fromTemplateUrl('templates/devinfo.html', function ($ionicModal) {
             $scope.devmodal = $ionicModal;
-        }, {
-                scope: $scope,
-                animation: 'slide-in-up'
-            });
+        },
+        {
+            scope: $scope,
+            animation: 'slide-in-up'
+        });
 
       $scope.goto = function (link) {
         var ref = cordova.InAppBrowser.open(link, '_system', 'location=yes');

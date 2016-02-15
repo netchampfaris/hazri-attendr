@@ -1,29 +1,26 @@
 ﻿﻿<ion-view title="Take attendance">
-    <!--<ion-nav-buttons side="left">
-        <button class="button button-clear icon ion-android-home" ng-click="goHome()"></button>
-    </ion-nav-buttons>-->
     <ion-content class="has-header" >
       <div class="card att-card-fix">
-        <div class="item item-divider item-icon-right" ng-click="showCard = !showCard" ng-init="showCard=false">
+        <div class="item item-divider item-icon-right" ng-click="showCard = !showCard" ng-init="showCard=true">
           View Info
           <i class="icon calm icon-small" ng-class="{'ion-plus-circled': !showCard, 'ion-minus-circled': showCard}"></i>
         </div>
         <div class="item item-body" ng-show="showCard">
-          <h2 class="att-body-fix">{{att.dept.value}} {{att.year.id | uppercase}} {{att.semester.value}}</h2>
+          <h2 class="att-body-fix">{{att.dept.name}} {{att.year.id | uppercase}} {{att.semester.name}}</h2>
           <h2>{{att.subject.value}}</h2>
-          <h2>{{att.type.value}} {{att.batchno.value}}</h2>
+          <h2>{{att.type.value}} {{(att.batch)?'Batch '+att.batch:''}}</h2>
+          <h2>Topic: {{att.topic}}</h2>
           <h2>{{att.date | date:'EEE, dd - MMMM - yyyy'}}</h2>
         </div>
       </div>
-
-        <div id="btn-container">
-            <div id="studentbtn" ng-repeat="student in students | orderObjectBy:'rollno':false" on-hold="showInfo($event,student)">
-                <button class="button fab" ng-class="{'absentClass':student.absent}"
-                        ng-click="toggle(student)" >
-                    <strong>{{student.rollno}}</strong>
-                </button>
-            </div>
-        </div>
+      <div id="btn-container">
+          <div id="studentbtn" ng-repeat="student in students | orderObjectBy:'rollno':false" on-hold="showInfo($event,student)">
+              <button class="button fab" ng-class="{'absentClass':student.absent}"
+                      ng-click="toggle(student)" >
+                  <strong>{{student.rollno}}</strong>
+              </button>
+          </div>
+      </div>
       <div class="padding"></div>
       <div class="padding"></div>
     </ion-content>
@@ -32,6 +29,6 @@
         <div><i class="icon ion-record icon2"></i> Absent</div>
     </div>
     <div class="bar bar-footer bar-stable">
-      <div class="title" ng-click="askTopic(students)">Submit&nbsp;<i class="icon ion-android-send"></i></div>
+      <div class="title" ng-click="showConfirm(students)">Submit&nbsp;<i class="icon ion-android-send"></i></div>
     </div>
 </ion-view>
